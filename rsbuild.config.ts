@@ -94,8 +94,17 @@ export default defineConfig({
   html: { template: './index.html' },
   server: {
     compress: true,
+    host: '0.0.0.0',
+    port: 5000,
   },
-  dev: { hmr: true },
+  dev: {
+    hmr: true,
+    client: {
+      host: process.env.REPLIT_DEV_DOMAIN || 'localhost',
+      port: 443,
+      protocol: 'wss',
+    },
+  },
   tools: {
     rspack: {
       module: {
