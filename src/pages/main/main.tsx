@@ -46,6 +46,8 @@ import './main.scss';
 
 const ChartWrapper = lazy(() => import('../chart/chart-wrapper'));
 const Tutorial = lazy(() => import('../tutorials'));
+const ProAnalysis = lazy(() => import('../pro-analysis'));
+const PremiumBots = lazy(() => import('../premium-bots'));
 
 const AppWrapper = observer(() => {
     const { connectionStatus } = useApiBase();
@@ -78,7 +80,7 @@ const AppWrapper = observer(() => {
     const { clear } = summary_card;
     const { DASHBOARD, BOT_BUILDER } = DBOT_TABS;
     const init_render = React.useRef(true);
-    const hash = ['dashboard', 'bot_builder', 'chart', 'tutorial'];
+    const hash = ['dashboard', 'bot_builder', 'chart', 'tutorial', 'pro_analysis', 'premium_bots'];
     const { isDesktop } = useDevice();
     const location = useLocation();
     const navigate = useNavigate();
@@ -451,6 +453,32 @@ const AppWrapper = observer(() => {
                                         <Tutorial handleTabChange={handleTabChange} />
                                     </Suspense>
                                 </div>
+                            </div>
+                            <div
+                                label={
+                                    <>
+                                        <span style={{ fontSize: '16px', lineHeight: 1 }}>📊</span>
+                                        <Localize i18n_default_text='Pro Analysis' />
+                                    </>
+                                }
+                                id='id-pro-analysis'
+                            >
+                                <Suspense fallback={<ChunkLoader message={localize('Loading Pro Analysis...')} />}>
+                                    <ProAnalysis handleTabChange={handleTabChange} />
+                                </Suspense>
+                            </div>
+                            <div
+                                label={
+                                    <>
+                                        <span style={{ fontSize: '16px', lineHeight: 1 }}>💎</span>
+                                        <Localize i18n_default_text='Premium Bots' />
+                                    </>
+                                }
+                                id='id-premium-bots'
+                            >
+                                <Suspense fallback={<ChunkLoader message={localize('Loading Premium Bots...')} />}>
+                                    <PremiumBots handleTabChange={handleTabChange} />
+                                </Suspense>
                             </div>
                         </Tabs>
                         {!isDesktop && right_tab_shadow && <span className='tabs-shadow tabs-shadow--right' />}{' '}
