@@ -330,7 +330,7 @@
         &--even { background: rgba(247, 59, 178, 0.15); color: #f73bb2; }
         &--odd { background: rgba(139, 92, 246, 0.15); color: #8b5cf6; }
         &--neutral { background: rgba(148, 163, 184, 0.15); color: #94a3b8; }
-        &--analyzing... { background: transparent; color: #94a3b8; }
+        &--analyzing { background: transparent; color: #94a3b8; }
     }
 
     &__strength {
@@ -507,7 +507,7 @@
             border: 1px solid rgba(148, 163, 184, 0.3);
         }
 
-        &--analyzing... {
+        &--analyzing {
             background: rgba(148, 163, 184, 0.05);
             border: 1px solid rgba(148, 163, 184, 0.2);
         }

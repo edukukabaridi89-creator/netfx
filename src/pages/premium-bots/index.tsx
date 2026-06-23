@@ -2,99 +2,130 @@
 import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/hooks/useStore';
+import { load } from '@/external/bot-skeleton';
 import { DBOT_TABS } from '@/constants/bot-contents';
 import './premium-bots.scss';
 
 const PREMIUM_BOTS = [
     {
-        id: 'even-odd-martingale',
-        name: 'Even/Odd Martingale',
+        id: 'dollar-hunter-bot',
+        name: '$DOLLAR HUNTER BOT',
+        fileName: 'dollar-hunter-bot.xml',
         category: 'Volatility',
-        description: 'Trades Even/Odd on Volatility indices with a martingale recovery strategy. Uses digit analysis to find bias before entering.',
-        markets: ['R_10', 'R_25', 'R_50', 'R_75', 'R_100'],
-        defaultMarket: 'R_50',
-        defaultStake: '1.00',
+        description: 'Hunts dollar opportunities on Volatility 100. Uses Over/Under digit logic with martingale recovery and auto target-profit stop.',
+        markets: ['R_100'],
+        defaultStake: '0.35',
         martingale: '2.2',
-        tradeType: 'DIGITEVEN',
+        tradeType: 'DIGITOVER',
         risk: 'Medium',
-        winRate: '~55%',
-        icon: '📈',
+        winRate: '~56%',
+        icon: '💵',
         badge: 'Popular',
     },
     {
-        id: 'over-under-smart',
-        name: 'Over/Under Smart Entry',
-        category: 'Volatility 1s',
-        description: 'Analyzes real-time digit frequency to detect when a digit threshold is likely to be crossed. Waits for 3 consecutive signals before entering.',
-        markets: ['1HZ10V', '1HZ25V', '1HZ50V', '1HZ75V', '1HZ100V'],
-        defaultMarket: '1HZ10V',
-        defaultStake: '0.50',
+        id: 'original-2025-version',
+        name: '2025 Original Version',
+        fileName: 'original-2025-version.xml',
+        category: 'Volatility',
+        description: 'The classic 2025 original bot strategy for Volatility 100. Battle-tested Over/Under logic with built-in loss management.',
+        markets: ['R_100'],
+        defaultStake: '2.00',
         martingale: '2.2',
         tradeType: 'DIGITOVER',
-        risk: 'Low',
-        winRate: '~58%',
-        icon: '🎯',
-        badge: 'Recommended',
+        risk: 'Medium',
+        winRate: '~55%',
+        icon: '⭐',
+        badge: 'Classic',
     },
     {
-        id: 'boom-crash-rider',
-        name: 'Boom/Crash Spike Rider',
-        category: 'Boom/Crash',
-        description: 'Specifically designed for Boom and Crash markets. Detects pre-spike conditions and positions accordingly for high-profit spike entries.',
-        markets: ['BOOM500', 'BOOM1000', 'CRASH500', 'CRASH1000'],
-        defaultMarket: 'BOOM500',
-        defaultStake: '1.00',
-        martingale: '2.0',
-        tradeType: 'CALL',
+        id: 'digit-over-split-martingale',
+        name: '1-Tick Digit Over 2 (Split Martingale)',
+        fileName: 'digit-over-split-martingale.xml',
+        category: 'Volatility',
+        description: 'Advanced split martingale strategy for 1-tick Digit Over 2 trades. Splits recovery across multiple trades to reduce drawdown risk.',
+        markets: ['R_50', 'R_100'],
+        defaultStake: '0.35',
+        martingale: '2.5',
+        tradeType: 'DIGITOVER',
         risk: 'High',
-        winRate: '~62%',
-        icon: '💥',
+        winRate: '~58%',
+        icon: '✂️',
+        badge: 'Advanced',
+    },
+    {
+        id: 'candle-mine-2025',
+        name: 'Candle Mine 2025',
+        fileName: 'candle-mine-2025.xml',
+        category: 'Volatility',
+        description: 'Updated 2025 version of Candle Mine for Volatility 100. Mines candle patterns to predict Even/Odd digit outcomes with precision.',
+        markets: ['R_100'],
+        defaultStake: '0.35',
+        martingale: '2.2',
+        tradeType: 'DIGITEVEN',
+        risk: 'Medium',
+        winRate: '~57%',
+        icon: '⛏️',
+        badge: 'Updated',
+    },
+    {
+        id: 'binary-expert-pro',
+        name: 'Binary Expert Pro 2025',
+        fileName: 'binary-expert-pro.xml',
+        category: 'Volatility 1s',
+        description: 'Professional binary expert bot optimized for Volatility 1s indices. Uses advanced signal detection and high-stake recovery logic.',
+        markets: ['1HZ10V', '1HZ25V', '1HZ50V'],
+        defaultStake: '20.00',
+        martingale: '2.2',
+        tradeType: 'DIGITOVER',
+        risk: 'High',
+        winRate: '~60%',
+        icon: '🏆',
+        badge: 'Pro',
+    },
+    {
+        id: 'alexspeedbot-expro2',
+        name: 'AlexSpeedBot EXPRO2',
+        fileName: 'alexspeedbot-expro2.xml',
+        category: 'Volatility',
+        description: 'High-speed expert trading bot by Alex. Rapid entry/exit logic with target profit and loss control. Designed for fast markets.',
+        markets: ['R_100'],
+        defaultStake: '2.00',
+        martingale: '2.2',
+        tradeType: 'DIGITOVER',
+        risk: 'High',
+        winRate: '~59%',
+        icon: '⚡',
         badge: 'Hot',
     },
     {
-        id: 'matches-differs-analyzer',
-        name: 'Matches/Differs Analyzer',
-        category: 'Volatility',
-        description: 'Identifies the least frequent digit over the last 50 ticks and trades "Differs" against it, or the most frequent and trades "Matches". Adapts automatically.',
-        markets: ['R_10', 'R_25', 'R_50', 'R_75', 'R_100'],
-        defaultMarket: 'R_10',
-        defaultStake: '0.35',
-        martingale: '2.5',
-        tradeType: 'DIGITMATCH',
-        risk: 'Low',
-        winRate: '~60%',
-        icon: '🔍',
-        badge: 'Safe',
-    },
-    {
-        id: 'step-index-scalper',
-        name: 'Step Index Scalper',
-        category: 'Step',
-        description: 'Optimized for Step Index which moves in fixed increments. Detects directional momentum and scalps small but consistent profits on each step.',
-        markets: ['stpRNG'],
-        defaultMarket: 'stpRNG',
-        defaultStake: '1.00',
+        id: 'auto-c4-volt-ai',
+        name: 'AUTO C4 VOLT AI Premium',
+        fileName: 'auto-c4-volt-ai.xml',
+        category: 'Volatility 1s',
+        description: 'AI-powered C4 VOLT robot for Volatility 1s markets. Fully automated with intelligent market scanning and adaptive stake management.',
+        markets: ['1HZ10V', '1HZ25V', '1HZ50V', '1HZ75V'],
+        defaultStake: '2.00',
         martingale: '2.2',
-        tradeType: 'CALL',
+        tradeType: 'DIGITOVER',
         risk: 'Medium',
-        winRate: '~54%',
-        icon: '📊',
-        badge: 'Consistent',
+        winRate: '~61%',
+        icon: '🤖',
+        badge: 'AI Powered',
     },
     {
-        id: 'jump-index-momentum',
-        name: 'Jump Index Momentum',
-        category: 'Jump',
-        description: 'Captures high-volatility jump movements on Jump indices. Uses trend continuation logic to ride post-jump momentum for maximum pips.',
-        markets: ['JD10', 'JD25', 'JD50', 'JD75', 'JD100'],
-        defaultMarket: 'JD25',
+        id: 'vaio-pro-bot',
+        name: 'VAIO Pro Bot',
+        fileName: 'vaio-pro-bot.xml',
+        category: 'Volatility 1s',
+        description: 'VAIO prime trades bot for 1s indices. Focuses on high-probability setups with disciplined stake sizing and smart martingale.',
+        markets: ['1HZ50V', '1HZ100V'],
         defaultStake: '1.00',
         martingale: '2.2',
-        tradeType: 'CALL',
-        risk: 'High',
+        tradeType: 'DIGITOVER',
+        risk: 'Low',
         winRate: '~57%',
-        icon: '🚀',
-        badge: 'Advanced',
+        icon: '💎',
+        badge: 'Stable',
     },
 ];
 
@@ -102,31 +133,49 @@ const RISK_COLOR: Record<string, string> = { Low: '#10b981', Medium: '#f59e0b', 
 
 const PremiumBots = observer(({ handleTabChange }: { handleTabChange: (tab: number) => void }) => {
     const { dashboard } = useStore();
+    const [loadingBot, setLoadingBot] = useState<string | null>(null);
     const [loadedBot, setLoadedBot] = useState<string | null>(null);
+    const [loadError, setLoadError] = useState<string | null>(null);
     const [customStake, setCustomStake] = useState<Record<string, string>>({});
     const [customMartingale, setCustomMartingale] = useState<Record<string, string>>({});
     const [selectedCategory, setSelectedCategory] = useState<string>('All');
-    const [runningBot, setRunningBot] = useState<string | null>(null);
 
     const categories = ['All', ...Array.from(new Set(PREMIUM_BOTS.map(b => b.category)))];
-    const filteredBots = selectedCategory === 'All'
-        ? PREMIUM_BOTS
-        : PREMIUM_BOTS.filter(b => b.category === selectedCategory);
+    const filteredBots =
+        selectedCategory === 'All' ? PREMIUM_BOTS : PREMIUM_BOTS.filter(b => b.category === selectedCategory);
 
-    const handleLoadBot = (bot: typeof PREMIUM_BOTS[0]) => {
-        setLoadedBot(bot.id);
-        setRunningBot(null);
-        setTimeout(() => {
-            dashboard.setActiveTab(DBOT_TABS.BOT_BUILDER);
-            if (handleTabChange) handleTabChange(DBOT_TABS.BOT_BUILDER);
-        }, 800);
+    const handleLoadBot = async (bot: (typeof PREMIUM_BOTS)[0]) => {
+        setLoadingBot(bot.id);
+        setLoadError(null);
+        try {
+            const res = await fetch(`/bots/${bot.fileName}`);
+            if (!res.ok) throw new Error(`Failed to fetch bot file (${res.status})`);
+            const xmlText = await res.text();
+
+            await load({
+                block_string: xmlText,
+                file_name: bot.name,
+                workspace: window.Blockly?.derivWorkspace,
+                from: 'local',
+                drop_event: {},
+                showIncompatibleStrategyDialog: false,
+                show_snackbar: true,
+            });
+
+            setLoadedBot(bot.id);
+            setTimeout(() => {
+                dashboard.setActiveTab(DBOT_TABS.BOT_BUILDER);
+                if (handleTabChange) handleTabChange(DBOT_TABS.BOT_BUILDER);
+            }, 600);
+        } catch (err: any) {
+            setLoadError(`Could not load ${bot.name}: ${err.message}`);
+        } finally {
+            setLoadingBot(null);
+        }
     };
 
-    const getStake = (bot: typeof PREMIUM_BOTS[0]) =>
-        customStake[bot.id] ?? bot.defaultStake;
-
-    const getMartingale = (bot: typeof PREMIUM_BOTS[0]) =>
-        customMartingale[bot.id] ?? bot.martingale;
+    const getStake = (bot: (typeof PREMIUM_BOTS)[0]) => customStake[bot.id] ?? bot.defaultStake;
+    const getMartingale = (bot: (typeof PREMIUM_BOTS)[0]) => customMartingale[bot.id] ?? bot.martingale;
 
     return (
         <div className='premium-bots'>
@@ -150,6 +199,13 @@ const PremiumBots = observer(({ handleTabChange }: { handleTabChange: (tab: numb
                 </div>
             </div>
 
+            {loadError && (
+                <div className='premium-bots__error'>
+                    ⚠️ {loadError}
+                    <button onClick={() => setLoadError(null)}>✕</button>
+                </div>
+            )}
+
             <div className='premium-bots__category-tabs'>
                 {categories.map(cat => (
                     <button
@@ -165,6 +221,7 @@ const PremiumBots = observer(({ handleTabChange }: { handleTabChange: (tab: numb
             <div className='premium-bots__grid'>
                 {filteredBots.map(bot => {
                     const isLoaded = loadedBot === bot.id;
+                    const isLoading = loadingBot === bot.id;
                     return (
                         <div key={bot.id} className={`premium-bots__card ${isLoaded ? 'loaded' : ''}`}>
                             <div className='premium-bots__card-header'>
@@ -172,8 +229,12 @@ const PremiumBots = observer(({ handleTabChange }: { handleTabChange: (tab: numb
                                 <div className='premium-bots__card-meta'>
                                     <h3>{bot.name}</h3>
                                     <div className='premium-bots__badges'>
-                                        <span className='premium-bots__badge premium-bots__badge--category'>{bot.category}</span>
-                                        <span className='premium-bots__badge premium-bots__badge--type'>{bot.badge}</span>
+                                        <span className='premium-bots__badge premium-bots__badge--category'>
+                                            {bot.category}
+                                        </span>
+                                        <span className='premium-bots__badge premium-bots__badge--type'>
+                                            {bot.badge}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -203,7 +264,9 @@ const PremiumBots = observer(({ handleTabChange }: { handleTabChange: (tab: numb
                                     <input
                                         type='number'
                                         value={getStake(bot)}
-                                        onChange={e => setCustomStake(prev => ({ ...prev, [bot.id]: e.target.value }))}
+                                        onChange={e =>
+                                            setCustomStake(prev => ({ ...prev, [bot.id]: e.target.value }))
+                                        }
                                         min='0.35'
                                         step='0.01'
                                     />
@@ -213,7 +276,9 @@ const PremiumBots = observer(({ handleTabChange }: { handleTabChange: (tab: numb
                                     <input
                                         type='number'
                                         value={getMartingale(bot)}
-                                        onChange={e => setCustomMartingale(prev => ({ ...prev, [bot.id]: e.target.value }))}
+                                        onChange={e =>
+                                            setCustomMartingale(prev => ({ ...prev, [bot.id]: e.target.value }))
+                                        }
                                         min='1'
                                         step='0.1'
                                     />
@@ -223,7 +288,9 @@ const PremiumBots = observer(({ handleTabChange }: { handleTabChange: (tab: numb
                             <div className='premium-bots__markets'>
                                 <span className='premium-bots__markets-label'>Markets:</span>
                                 {bot.markets.slice(0, 3).map(m => (
-                                    <span key={m} className='premium-bots__market-tag'>{m}</span>
+                                    <span key={m} className='premium-bots__market-tag'>
+                                        {m}
+                                    </span>
                                 ))}
                                 {bot.markets.length > 3 && (
                                     <span className='premium-bots__market-tag'>+{bot.markets.length - 3}</span>
@@ -231,10 +298,19 @@ const PremiumBots = observer(({ handleTabChange }: { handleTabChange: (tab: numb
                             </div>
 
                             <button
-                                className={`premium-bots__load-btn ${isLoaded ? 'loaded' : ''}`}
+                                className={`premium-bots__load-btn ${isLoaded ? 'loaded' : ''} ${isLoading ? 'loading' : ''}`}
                                 onClick={() => handleLoadBot(bot)}
+                                disabled={isLoading || isLoaded}
                             >
-                                {isLoaded ? '✅ Loading Bot Builder...' : '🤖 Load Bot'}
+                                {isLoading ? (
+                                    <>
+                                        <span className='premium-bots__spinner' /> Loading...
+                                    </>
+                                ) : isLoaded ? (
+                                    '✅ Loaded in Bot Builder'
+                                ) : (
+                                    '🤖 Load Bot'
+                                )}
                             </button>
                         </div>
                     );

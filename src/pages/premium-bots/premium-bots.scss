@@ -287,5 +287,55 @@
             transform: none;
             box-shadow: none;
         }
+
+        &.loading {
+            opacity: 0.8;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        &:disabled {
+            cursor: not-allowed;
+        }
+    }
+
+    &__spinner {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border: 2px solid rgba(255, 255, 255, 0.4);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: pb-spin 0.7s linear infinite;
+        margin-right: 6px;
+        vertical-align: middle;
+    }
+
+    &__error {
+        background: rgba(239, 68, 68, 0.12);
+        border: 1px solid rgba(239, 68, 68, 0.4);
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        color: #ef4444;
+        font-size: 0.85rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+
+        button {
+            background: transparent;
+            border: none;
+            color: #ef4444;
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 0 0.25rem;
+        }
+    }
+}
+
+@keyframes pb-spin {
+    to {
+        transform: rotate(360deg);
     }
 }
