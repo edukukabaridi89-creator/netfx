@@ -38,6 +38,7 @@ import {
 import { LegacyGuide1pxIcon } from '@deriv/quill-icons/Legacy';
 import { Localize, localize } from '@deriv-com/translations';
 import { useDevice } from '@deriv-com/ui';
+import AiFloatingBtn from '@/components/ai-floating-btn';
 import RunPanel from '../../components/run-panel';
 import ChartModal from '../chart/chart-modal';
 import Dashboard from '../dashboard';
@@ -48,6 +49,7 @@ const ChartWrapper = lazy(() => import('../chart/chart-wrapper'));
 const Tutorial = lazy(() => import('../tutorials'));
 const ProAnalysis = lazy(() => import('../pro-analysis'));
 const PremiumBots = lazy(() => import('../premium-bots'));
+const ManualTrader = lazy(() => import('../manual-trader'));
 
 const AppWrapper = observer(() => {
     const { connectionStatus } = useApiBase();
@@ -80,7 +82,7 @@ const AppWrapper = observer(() => {
     const { clear } = summary_card;
     const { DASHBOARD, BOT_BUILDER } = DBOT_TABS;
     const init_render = React.useRef(true);
-    const hash = ['dashboard', 'bot_builder', 'chart', 'tutorial', 'pro_analysis', 'premium_bots'];
+    const hash = ['dashboard', 'bot_builder', 'chart', 'tutorial', 'pro_analysis', 'premium_bots', 'manual_trader'];
     const { isDesktop } = useDevice();
     const location = useLocation();
     const navigate = useNavigate();
@@ -480,6 +482,19 @@ const AppWrapper = observer(() => {
                                     <PremiumBots handleTabChange={handleTabChange} />
                                 </Suspense>
                             </div>
+                            <div
+                                label={
+                                    <>
+                                        <span style={{ fontSize: '16px', lineHeight: 1 }}>🖐️</span>
+                                        <Localize i18n_default_text='Manual Trader' />
+                                    </>
+                                }
+                                id='id-manual-trader'
+                            >
+                                <Suspense fallback={<ChunkLoader message={localize('Loading Manual Trader...')} />}>
+                                    <ManualTrader />
+                                </Suspense>
+                            </div>
                         </Tabs>
                         {!isDesktop && right_tab_shadow && <span className='tabs-shadow tabs-shadow--right' />}{' '}
                     </div>
@@ -527,6 +542,9 @@ const AppWrapper = observer(() => {
                     />
                 );
             })()}
+
+            {/* AI Floating Button — visible on every tab */}
+            <AiFloatingBtn handleTabChange={handleTabChange} />
         </React.Fragment>
     );
 });
