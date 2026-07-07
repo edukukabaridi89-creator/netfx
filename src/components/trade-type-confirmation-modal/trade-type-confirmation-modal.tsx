@@ -41,23 +41,20 @@ const TradeTypeConfirmationModal: React.FC<TradeTypeConfirmationModalProps> = ob
             setDisplayName(trade_type_display_name);
         }, [trade_type_display_name, display_name]);
 
-        // Handle first-time users - apply changes silently without showing modal
+        // Auto-confirm whenever the modal would show — no user click required
         React.useEffect(() => {
-            if (is_visible && (isFirstTimeUser || is_tour_dialog_visible)) {
+            if (is_visible) {
                 const tradeTypeFromUrl = getTradeTypeFromCurrentUrl();
-
                 if (tradeTypeFromUrl && tradeTypeFromUrl.isValid) {
-                    // Remove URL parameter immediately for tour users - don't apply changes
+                    applyTradeTypeDropdownChanges(tradeTypeFromUrl.tradeTypeCategory, tradeTypeFromUrl.tradeType);
                     removeTradeTypeFromUrl();
-
-                    // Call onConfirm to indicate processing is complete
-                    onConfirm();
                 }
+                onConfirm();
             }
-        }, [is_visible, isFirstTimeUser, is_tour_dialog_visible, onConfirm]);
+        }, [is_visible, onConfirm]);
 
-        // Don't show modal if tour is visible or if it's a first-time user
-        if (is_tour_dialog_visible || isFirstTimeUser) return null;
+        // Never show the modal — always auto-confirm above
+        if (true) return null;
         return (
             <Dialog
                 title={localize('Change Trade Type?')}

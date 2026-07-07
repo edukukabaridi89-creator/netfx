@@ -1,6 +1,6 @@
 .hedge-hub {
     padding: 2.4rem;
-    max-width: 1200px;
+    max-width: 900px;
     margin: 0 auto;
     color: var(--text-general);
 
@@ -8,8 +8,8 @@
         display: flex;
         align-items: center;
         gap: 1.6rem;
-        margin-bottom: 3.2rem;
-        padding-bottom: 2.4rem;
+        margin-bottom: 2.4rem;
+        padding-bottom: 2rem;
         border-bottom: 1px solid var(--general-section-1);
     }
 
@@ -17,8 +17,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 6.4rem;
-        height: 6.4rem;
+        width: 5.6rem;
+        height: 5.6rem;
         background: var(--brand-red-coral);
         border-radius: 1.2rem;
         color: #fff;
@@ -26,87 +26,332 @@
     }
 
     &__title {
-        font-size: 2.4rem;
+        font-size: 2.2rem;
         font-weight: 700;
         margin: 0 0 0.4rem;
         color: var(--text-prominent);
     }
 
     &__subtitle {
-        font-size: 1.4rem;
+        font-size: 1.3rem;
         color: var(--text-less-prominent);
         margin: 0;
     }
 
-    &__coming-soon {
-        background: linear-gradient(135deg, var(--general-section-1) 0%, var(--general-section-2) 100%);
+    // Strategy explanation card
+    &__strategy-card {
+        background: linear-gradient(135deg, rgba(255,68,68,0.06) 0%, rgba(255,68,68,0.02) 100%);
+        border: 1px solid rgba(255,68,68,0.25);
+        border-radius: 1.4rem;
+        padding: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    &__strategy-header {
+        font-size: 1.2rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--text-less-prominent);
+        margin-bottom: 1.2rem;
+    }
+
+    &__strategy-legs {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+        flex-wrap: wrap;
+        margin-bottom: 1.2rem;
+    }
+
+    &__strategy-leg {
+        flex: 1;
+        min-width: 16rem;
+        background: var(--general-section-1);
+        border-radius: 1rem;
+        padding: 1.2rem 1.6rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-size: 1.3rem;
+        color: var(--text-general);
+
+        &--over  { border-left: 3px solid #22c55e; }
+        &--under { border-left: 3px solid #3b82f6; }
+    }
+
+    &__strategy-leg-badge {
+        font-weight: 700;
+        font-size: 1.2rem;
+        white-space: nowrap;
+        padding: 0.3rem 0.8rem;
+        border-radius: 0.5rem;
+
+        .hedge-hub__strategy-leg--over  & { background: rgba(34,197,94,0.15);  color: #22c55e; }
+        .hedge-hub__strategy-leg--under & { background: rgba(59,130,246,0.15); color: #3b82f6; }
+    }
+
+    &__strategy-plus {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--text-less-prominent);
+        flex-shrink: 0;
+    }
+
+    &__strategy-note {
+        font-size: 1.2rem;
+        color: var(--text-less-prominent);
+        line-height: 1.6;
+
+        strong { color: var(--text-general); }
+    }
+
+    // Form
+    &__form {
+        background: var(--general-section-1);
         border: 1px solid var(--general-section-3);
         border-radius: 1.6rem;
-        padding: 3.2rem;
-        text-align: center;
-        margin-bottom: 3.2rem;
+        padding: 2.4rem;
+        margin-bottom: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
 
-        h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--text-prominent);
-            margin: 1.2rem 0 1.2rem;
-        }
+    &__field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+    }
 
-        p {
-            font-size: 1.4rem;
-            color: var(--text-less-prominent);
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
+    &__label {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--text-prominent);
+    }
+
+    &__select,
+    &__input {
+        background: var(--general-main-1);
+        border: 1px solid var(--general-section-3);
+        border-radius: 0.8rem;
+        color: var(--text-prominent);
+        font-size: 1.4rem;
+        font-family: inherit;
+        padding: 0.9rem 1.2rem;
+        outline: none;
+        width: 100%;
+        transition: border-color 0.2s;
+
+        &:focus  { border-color: var(--brand-red-coral); }
+        &:disabled { opacity: 0.6; cursor: not-allowed; }
+    }
+
+    &__select { cursor: pointer; }
+
+    &__legs-preview {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.2rem;
+
+        @media (max-width: 480px) {
+            grid-template-columns: 1fr;
         }
     }
 
-    &__coming-soon-badge {
-        display: inline-block;
-        background: var(--brand-red-coral);
-        color: #fff;
+    &__leg-preview {
+        border-radius: 1rem;
+        padding: 1.4rem 1.6rem;
+        text-align: center;
+        border: 1.5px solid transparent;
+
+        &--over  { background: rgba(34,197,94,0.08);  border-color: rgba(34,197,94,0.3); }
+        &--under { background: rgba(59,130,246,0.08); border-color: rgba(59,130,246,0.3); }
+    }
+
+    &__leg-preview-label {
         font-size: 1.1rem;
         font-weight: 700;
-        letter-spacing: 0.1em;
         text-transform: uppercase;
-        padding: 0.4rem 1.2rem;
-        border-radius: 2rem;
+        letter-spacing: 0.08em;
+        color: var(--text-less-prominent);
+        margin-bottom: 0.4rem;
     }
 
-    &__features {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-        gap: 1.6rem;
+    &__leg-preview-value {
+        font-size: 3.2rem;
+        font-weight: 900;
+        .hedge-hub__leg-preview--over  & { color: #22c55e; }
+        .hedge-hub__leg-preview--under & { color: #3b82f6; }
     }
 
-    &__feature-card {
+    &__leg-preview-hint {
+        font-size: 1.1rem;
+        color: var(--text-less-prominent);
+    }
+
+    &__input-hint {
+        font-size: 1.2rem;
+        color: var(--text-less-prominent);
+    }
+
+    &__error {
+        background: rgba(255, 68, 68, 0.1);
+        border: 1px solid rgba(255, 68, 68, 0.4);
+        border-radius: 0.8rem;
+        padding: 1rem 1.4rem;
+        font-size: 1.3rem;
+        color: #ff4444;
+    }
+
+    &__fire-btn {
+        background: var(--brand-red-coral);
+        color: #fff;
+        border: none;
+        border-radius: 1rem;
+        padding: 1.4rem 2.4rem;
+        font-size: 1.5rem;
+        font-weight: 700;
+        font-family: inherit;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.8rem;
+        transition: opacity 0.2s, transform 0.1s;
+
+        &:hover:not(:disabled) { opacity: 0.9; }
+        &:active:not(:disabled) { transform: scale(0.98); }
+        &:disabled { opacity: 0.6; cursor: not-allowed; }
+    }
+
+    &__spinner {
+        width: 1.4rem;
+        height: 1.4rem;
+        border: 2px solid rgba(255,255,255,0.4);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: hh-spin 0.7s linear infinite;
+        display: inline-block;
+    }
+
+    @keyframes hh-spin {
+        to { transform: rotate(360deg); }
+    }
+
+    // Stats
+    &__stats {
+        display: flex;
+        gap: 1.2rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+    }
+
+    &__stat {
+        flex: 1;
+        min-width: 10rem;
         background: var(--general-section-1);
         border: 1px solid var(--general-section-3);
         border-radius: 1.2rem;
-        padding: 2.4rem;
+        padding: 1.2rem 1.6rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+
+        &--profit { border-color: #22c55e; }
+        &--loss   { border-color: #ef4444; }
+    }
+
+    &__stat-val {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--text-prominent);
+
+        .hedge-hub__stat--profit & { color: #22c55e; }
+        .hedge-hub__stat--loss   & { color: #ef4444; }
+    }
+
+    &__stat-lbl {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--text-less-prominent);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    // Hedge pairs
+    &__pairs {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+    }
+
+    &__pair {
+        background: var(--general-section-1);
+        border: 1.5px solid var(--general-section-3);
+        border-radius: 1.4rem;
+        padding: 1.6rem;
         transition: border-color 0.2s;
 
-        &:hover {
-            border-color: var(--brand-red-coral);
-        }
+        &--profit    { border-color: #22c55e; background: rgba(34,197,94,0.04); }
+        &--both-loss { border-color: #ef4444; background: rgba(239,68,68,0.04); }
+    }
 
-        h3 {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--text-prominent);
-            margin: 1.2rem 0 0.8rem;
-        }
+    &__pair-id {
+        font-size: 1.1rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--text-less-prominent);
+        margin-bottom: 1rem;
+    }
 
-        p {
-            font-size: 1.3rem;
-            color: var(--text-less-prominent);
-            line-height: 1.6;
-            margin: 0;
+    &__pair-legs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 1rem;
+
+        @media (max-width: 480px) {
+            grid-template-columns: 1fr;
         }
     }
 
-    &__feature-icon {
-        font-size: 2.4rem;
+    &__pair-leg {
+        background: var(--general-main-1);
+        border-radius: 0.8rem;
+        padding: 1rem 1.2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        border: 1px solid var(--general-section-3);
+        transition: border-color 0.2s;
+
+        &--won  { border-color: #22c55e; }
+        &--lost { border-color: #ef4444; }
+        &--open { border-color: #f59e0b; }
+    }
+
+    &__pair-leg-type {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--text-prominent);
+    }
+
+    &__pair-leg-status {
+        font-size: 1.3rem;
+        color: var(--text-general);
+    }
+
+    &__pair-result {
+        font-size: 1.3rem;
+        font-weight: 600;
+        padding: 0.6rem 1.2rem;
+        border-radius: 0.6rem;
+        display: inline-block;
+
+        &--profit    { background: rgba(34,197,94,0.15);  color: #22c55e; }
+        &--both-loss { background: rgba(239,68,68,0.15);  color: #ef4444; }
+        &--pending   { background: var(--general-section-2); color: var(--text-less-prominent); }
     }
 }
