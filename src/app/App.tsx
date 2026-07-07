@@ -1,6 +1,9 @@
 import { lazy, Suspense } from 'react';
 import React from 'react';
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
+import BulkTrader from '../pages/bulk-trader';
+import HedgeHub from '../pages/hedge-hub';
+import SpeedLab from '../pages/speed-lab';
 import { cleanupUrl, handleOAuthCallback } from '@/external/deriv-core';
 import ChunkLoader from '@/components/loader/chunk-loader';
 import LocalStorageSyncWrapper from '@/components/localStorage-sync-wrapper';
@@ -58,6 +61,10 @@ const router = createBrowserRouter(
             <Route index element={<AppRoot />} />
             {/* App Builder embeds the template at /preview — render the same app shell */}
             <Route path='preview' element={<AppRoot />} />
+            {/* Custom feature pages */}
+            <Route path='bulk-trader' element={<BulkTrader />} />
+            <Route path='hedge-hub' element={<HedgeHub />} />
+            <Route path='speed-lab' element={<SpeedLab />} />
         </Route>
     ),
     { basename: routerBasename }

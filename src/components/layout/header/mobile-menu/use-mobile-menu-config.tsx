@@ -1,4 +1,5 @@
 import { ComponentProps, ReactNode, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useThemeSwitcher from '@/hooks/useThemeSwitcher';
 import RootStore from '@/stores/root-store';
 import { LegacyLogout1pxIcon, LegacyTheme1pxIcon } from '@deriv/quill-icons/Legacy';
@@ -21,6 +22,26 @@ type TMenuConfig = {
     isActive?: boolean;
 }[];
 
+const BulkTraderIcon = () => (
+    <svg width='16' height='16' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'>
+        <rect x='4' y='10' width='32' height='6' rx='2' fill='currentColor' opacity='0.9' />
+        <rect x='4' y='20' width='32' height='6' rx='2' fill='currentColor' opacity='0.6' />
+        <rect x='4' y='30' width='32' height='6' rx='2' fill='currentColor' opacity='0.3' />
+    </svg>
+);
+const HedgeHubIcon = () => (
+    <svg width='16' height='16' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'>
+        <path d='M8 20 L20 8 L32 20' stroke='currentColor' strokeWidth='3' strokeLinecap='round' strokeLinejoin='round' opacity='0.9' />
+        <path d='M8 20 L20 32 L32 20' stroke='currentColor' strokeWidth='3' strokeLinecap='round' strokeLinejoin='round' opacity='0.5' />
+        <circle cx='20' cy='20' r='3' fill='currentColor' />
+    </svg>
+);
+const SpeedLabIcon = () => (
+    <svg width='16' height='16' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'>
+        <path d='M20 6 L14 22 L20 19 L20 34 L26 18 L20 21 Z' fill='currentColor' opacity='0.9' />
+    </svg>
+);
+
 const useMobileMenuConfig = (
     client?: RootStore['client'],
     onLogout?: () => void,
@@ -28,28 +49,30 @@ const useMobileMenuConfig = (
 ) => {
     const { localize } = useTranslations();
     const { is_dark_mode_on, toggleTheme } = useThemeSwitcher();
+    const navigate = useNavigate();
 
     const menuConfig = useMemo((): TMenuConfig[] => {
 
         return [
             [
-                // ========================================
-                // CUSTOM MENU ITEMS PLACEHOLDER
-                // ========================================
-                //
-                // Add your custom menu items here.
-                //
-                // EXAMPLE:
-                // {
-                //     as: 'a',
-                //     label: localize('Your Page'),
-                //     LeftComponent: YourIcon,
-                //     href: '/your-page',
-                // },
-                //
-                // For desktop menu items, see:
-                // src/components/layout/header/header-config.tsx
-
+                {
+                    as: 'button',
+                    label: localize('Bulk Trader'),
+                    LeftComponent: BulkTraderIcon,
+                    onClick: () => navigate('/bulk-trader'),
+                },
+                {
+                    as: 'button',
+                    label: localize('Hedge Hub'),
+                    LeftComponent: HedgeHubIcon,
+                    onClick: () => navigate('/hedge-hub'),
+                },
+                {
+                    as: 'button',
+                    label: localize('Speed Lab'),
+                    LeftComponent: SpeedLabIcon,
+                    onClick: () => navigate('/speed-lab'),
+                },
                 // Conditionally include theme toggle based on brand config
                 enableThemeToggle && {
                     as: 'button',
@@ -75,7 +98,8 @@ const useMobileMenuConfig = (
         is_dark_mode_on,
         toggleTheme,
         localize,
-        enableThemeToggle, // [AI] Added to recalculate menu when theme toggle config changes
+        navigate,
+        enableThemeToggle,
     ]);
 
     // [AI] Check if menu has any items to determine if mobile menu should be shown

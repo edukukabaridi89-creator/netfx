@@ -289,6 +289,40 @@
     border-bottom: none;
 }
 
+.app-header__nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    height: 100%;
+}
+
+.app-header__nav-item {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 1.4rem;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    color: var(--text-general);
+    font-size: 1.3rem;
+    font-family: inherit;
+    white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+
+    &:hover {
+        color: var(--text-prominent);
+        border-bottom-color: var(--brand-red-coral);
+    }
+
+    &--active {
+        color: var(--text-prominent);
+        border-bottom-color: var(--brand-red-coral);
+        font-weight: 700;
+    }
+}
+
 @keyframes auth-spinner-rotate {
     from { transform: rotate(0deg); }
     to   { transform: rotate(360deg); }
