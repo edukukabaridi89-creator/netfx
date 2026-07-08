@@ -77,11 +77,25 @@
             &__list {
                 background: var(--general-section-1);
                 justify-content: start;
+                overflow-x: auto;
+                overflow-y: hidden;
+                scrollbar-width: thin;
+                scrollbar-color: var(--brand-red-coral) transparent;
+
+                &::-webkit-scrollbar {
+                    height: 3px;
+                }
+
+                &::-webkit-scrollbar-track {
+                    background: transparent;
+                }
+
+                &::-webkit-scrollbar-thumb {
+                    background: var(--brand-red-coral);
+                    border-radius: 2px;
+                }
 
                 @include mobile-or-tablet-screen {
-                    overflow-x: auto;
-                    overflow-y: hidden;
-                    -ms-overflow-style: none;
                     scrollbar-width: none;
 
                     &::-webkit-scrollbar {
