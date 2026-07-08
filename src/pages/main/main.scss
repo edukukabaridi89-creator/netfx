@@ -123,6 +123,9 @@
             }
 
             &__content {
+                overflow-y: auto;
+                height: 100%;
+
                 @include mobile-or-tablet-screen {
                     width: 100%;
                     overflow-x: auto;
